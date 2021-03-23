@@ -5,6 +5,8 @@
  */
 package cristi.lab6_pa;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,10 +19,11 @@ import javax.swing.SpinnerNumberModel;
  */
 public class ConfigPanel extends JPanel{
     final MainFrame frame;
-    JLabel[] sidesLabel = new JLabel[3];
-    JSpinner[] sidesField = new JSpinner[3];
+    JLabel[] sidesLabel = new JLabel[2];
+    JSpinner[] sidesField = new JSpinner[2];
     JComboBox colorCombo;
     String[] randOrBlack = {"Random", "Black"};
+    String dataComboBox;
     public ConfigPanel(MainFrame frame) {
         this.frame = frame;
         init();
@@ -33,19 +36,26 @@ public class ConfigPanel extends JPanel{
         sidesLabel [1] = new JLabel("Size number: ");
         sidesField [1] = new JSpinner (new SpinnerNumberModel(0, 0, 100, 1));
         sidesField[1].setValue(6);
-        
-        sidesLabel [2] = new JLabel("Stroke size: ");
-        sidesField [2] = new JSpinner (new SpinnerNumberModel(0, 0, 100, 1));
-        sidesField[2].setValue(6);
         //TODO
         colorCombo = new JComboBox(randOrBlack);
         
-        //this.addActionListener();
+        colorCombo.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dataComboBox = (String) colorCombo.getItemAt(colorCombo.getSelectedIndex());
+            }
+        });
         
-        for(int i = 0; i < 3; i++){
+        
+        for(int i = 0; i < 2; i++){
             add(sidesLabel[i]);
             add(sidesField[i]);
         }
         add(colorCombo);
     }
+
+    public String getDataComboBox() {
+        return dataComboBox;
+    }
+    
+    
 }

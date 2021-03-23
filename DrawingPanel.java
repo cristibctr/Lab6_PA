@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -48,9 +49,14 @@ public class DrawingPanel extends JPanel{
     }
     
     private void drawShape(int x, int y){
-        int radius = (int)(Math.random()*10);
-        int sides = 5;
-        Color color = Color.BLUE;
+        int radius = (int)frame.configPanel.sidesField[1].getValue();
+        int sides = (int)frame.configPanel.sidesField[0].getValue();
+        Color color;
+        final Random r = new Random();
+        if(frame.configPanel.getDataComboBox() == "Black")
+                color = Color.BLACK;
+        else
+                color = new Color(r.nextInt(256),r.nextInt(256),r.nextInt(256),r.nextInt(256));
         graphics.setColor(color);
         graphics.fill(new RegularPolygon(x, y, radius, sides));
     }

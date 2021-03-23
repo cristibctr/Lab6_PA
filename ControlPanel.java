@@ -6,6 +6,7 @@
 package cristi.lab6_pa;
 
 import static java.awt.BorderLayout.SOUTH;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 /**
@@ -45,20 +47,31 @@ public class ControlPanel extends JPanel{
         add(exitBtn, SOUTH);
     }
     private void save(ActionEvent e){
-        try {
-            ImageIO.write(frame.canvas.image, "PNG", new File("D:/test.png"));
-        } catch (IOException ex) { System.err.println(ex); }
+        final JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showSaveDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION)
+            try {
+                ImageIO.write(frame.canvas.image, "png", new File(fc.getSelectedFile().getAbsolutePath() + ".png"));
+            } catch (IOException ex) { System.err.println(ex); }
     }
     private void load(ActionEvent e){
-        try {
-            frame.canvas.image = ImageIO.read(new File("D:/test.png"));
-        } catch (IOException ex) { System.err.println(ex); }
+        final JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showOpenDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION)
+            try {
+                frame.canvas.image = ImageIO.read(fc.getSelectedFile());
+                frame.canvas.repaint();
+            } catch (IOException ex) { System.err.println(ex); }
     }
     private void reset(ActionEvent e){
-        frame.canvas.image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+        frame.canvas.image = new BufferedImage(frame.canvas.W, frame.canvas.H, BufferedImage.TYPE_INT_ARGB);
+        frame.canvas.graphics = frame.canvas.image.createGraphics();
+        frame.canvas.graphics.setColor(Color.WHITE);
+        frame.canvas.graphics.fillRect(0, 0, frame.canvas.W, frame.canvas.H);
+        frame.canvas.repaint();
     }
     private void exit(ActionEvent e){
-        
+        System.exit(0);
     }
     //TODO
 }

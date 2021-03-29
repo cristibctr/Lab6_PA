@@ -9,9 +9,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.List;
+import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -25,6 +29,8 @@ public class DrawingPanel extends JPanel{
     final static int W = 800, H = 600;
     BufferedImage image;
     Graphics2D graphics; 
+    List<Shape> shapes = new ArrayList<>();
+    List<Color> colors = new ArrayList<>();
     public DrawingPanel(MainFrame frame) {
         this.frame = frame; 
         createOffscreenImage(); 
@@ -53,16 +59,34 @@ public class DrawingPanel extends JPanel{
         int sides = (int)frame.configPanel.sidesField[0].getValue();
         Color color;
         final Random r = new Random();
-        if(frame.configPanel.getDataComboBox() == "Black")
+        if(frame.configPanel.getDataComboBoxColor() == "Black")
                 color = Color.BLACK;
         else
                 color = new Color(r.nextInt(256),r.nextInt(256),r.nextInt(256),r.nextInt(256));
         graphics.setColor(color);
-        graphics.fill(new RegularPolygon(x, y, radius, sides));
+        if(frame.configPanel.getDataComboBoxShapes() == "Ellipse")
+            shapes.add(new NodeShape(x, y, radius));
+        else
+            shapes.add(new RegularPolygon(x, y, radius, sides));
+        colors.add(color);
     }
     
     @Override
     protected void paintComponent(Graphics g) {
         g.drawImage(image, 0, 0, this);
+        Graphics2D g2d = (Graphics2D) g;
+        if(!shapes.isEmpty())
+            for(int i = 0; i < shapes.size(); i++){
+                g2d.setColor(colors.get(i));
+                g2d.fill(shapes.get(i));
+            }
+        g2d.dispose();
+    }
+    
+    public void clearShape(){
+        if(!shapes.isEmpty()){
+            shapes.remove(shapes.size()-1);
+            colors.remove(colors.size()-1);
+        }
     }
 }

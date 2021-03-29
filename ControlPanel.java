@@ -8,6 +8,7 @@ package cristi.lab6_pa;
 import static java.awt.BorderLayout.SOUTH;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.MenuComponent;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,6 +28,7 @@ public class ControlPanel extends JPanel{
     JButton loadBtn = new JButton("Load");
     JButton resetBtn = new JButton("Reset");
     JButton exitBtn = new JButton("Exit");
+    JButton deleteBtn = new JButton("Delete");
     //TODO
     
     public ControlPanel(MainFrame frame){
@@ -34,17 +36,19 @@ public class ControlPanel extends JPanel{
         init();
     }
     private void init(){
-        setLayout(new GridLayout(1,4));
+        setLayout(new GridLayout(1,5));
         //TODO
         saveBtn.addActionListener(this::save);
         loadBtn.addActionListener(this::load);
         resetBtn.addActionListener(this::reset);
         exitBtn.addActionListener(this::exit);
+        deleteBtn.addActionListener(this::delete);
         //TODO
         add(saveBtn, SOUTH);
         add(loadBtn, SOUTH);
         add(resetBtn, SOUTH);
         add(exitBtn, SOUTH);
+        add(deleteBtn, SOUTH);
     }
     private void save(ActionEvent e){
         final JFileChooser fc = new JFileChooser();
@@ -72,6 +76,12 @@ public class ControlPanel extends JPanel{
     }
     private void exit(ActionEvent e){
         System.exit(0);
+    }
+    
+    private void delete(ActionEvent e){
+        //frame.canvas.remove((MenuComponent) frame.canvas.getShapes().get(frame.canvas.getShapes().size() - 1));
+        frame.canvas.clearShape();
+        frame.canvas.repaint();
     }
     //TODO
 }

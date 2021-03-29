@@ -23,7 +23,9 @@ public class ConfigPanel extends JPanel{
     JSpinner[] sidesField = new JSpinner[2];
     JComboBox colorCombo;
     String[] randOrBlack = {"Random", "Black"};
-    String dataComboBox;
+    JComboBox shapesCombo;
+    String[] shapesArr = {"Polygon", "Ellipse"};
+    String dataComboBoxColor, dataComboBoxShapes;
     public ConfigPanel(MainFrame frame) {
         this.frame = frame;
         init();
@@ -41,21 +43,34 @@ public class ConfigPanel extends JPanel{
         
         colorCombo.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                dataComboBox = (String) colorCombo.getItemAt(colorCombo.getSelectedIndex());
+                dataComboBoxColor = (String) colorCombo.getItemAt(colorCombo.getSelectedIndex());
             }
         });
         
+        shapesCombo = new JComboBox(shapesArr);
+        
+        shapesCombo.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dataComboBoxShapes = (String) shapesCombo.getItemAt(shapesCombo.getSelectedIndex());
+            }
+        });
         
         for(int i = 0; i < 2; i++){
             add(sidesLabel[i]);
             add(sidesField[i]);
         }
         add(colorCombo);
+        add(shapesCombo);
     }
 
-    public String getDataComboBox() {
-        return dataComboBox;
+    public String getDataComboBoxColor() {
+        return dataComboBoxColor;
     }
+
+    public String getDataComboBoxShapes() {
+        return dataComboBoxShapes;
+    }
+    
     
     
 }
